@@ -2,7 +2,7 @@
 
 Rock Paper Scissors, built in meteor, by Adam Hedgpeth
 
-Available at [adamsmpc.meteor.com](adamsmpc.meteor.com)
+Available at [adamsmpc.meteor.com](http://adamsmpc.meteor.com)
 
 ##Requirements
 
