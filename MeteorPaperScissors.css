@@ -15,6 +15,11 @@ body {
   font-size: 14px;
 }
 
+h1 {
+  color: #989898;
+  text-align: center;
+}
+
 #header {
   background-color: #366DC1;
   margin: 0px;
@@ -22,11 +27,65 @@ body {
   text-align: center;
   padding-top: 20px;
   color: white;
-  font-size: large;
+  font-size: x-large;;
   font-family: helvetica;
   font-weight: 200;
 }
 
+.buttons {
+  margin: 0 auto;
+  width: 500px;
+  text-align: center;
+  margin-top: 100px;
+}
+
+#playerButtons {
+  margin-top: 100px;
+}
+
+#weaponButtons {
+  margin-top: 50px;
+}
+
+.playerButton {
+  width: 175px;
+  height: 125px;
+  border: 0px;
+  background-color: #366DC1;
+  font-family: Helvetica;
+  font-size: medium;
+  color: white;
+  font-weight: 400;
+}
+
+.playerButton:hover {
+  background-color: #548CE2
+}
+
+#player1 {
+  margin-right: 20px;
+}
+
+#player2 {
+  margin-left: 20px;
+}
+
+.weapon {
+  margin: 6px;
+  border: none;
+  background-color: #366DC1;
+  color: white;
+  width: 250px;
+  height: 40px;
+  font-family: helvetica;
+  letter-spacing: 2px;
+  font-weight: bold;
+  font-size: initial;
+}
+
+.weapon:hover {
+  background-color: #548CE2
+}
 
 li {
   position: relative;

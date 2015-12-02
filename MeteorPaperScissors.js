@@ -3,36 +3,48 @@ Router.configure({
     layoutTemplate: 'main'
 });
 Router.route('/', {
+    name: 'home',
     template: 'home'
 });
-Router.route('/player1');
-Router.route('/player2');
+Router.route('/player1', {
+  name: 'player1',
+  template: 'play'
+});
+Router.route('/player2', {
+  name: 'player2',
+  template: 'play'
+});
 
 if (Meteor.isClient) {
   // This code only runs on the client
   // Template.body.helpers({
   // });
-  Template.body.events({
-      // "submit .new-task": function (event) {
-      //   // Prevent default browser form submit
-      //   event.preventDefault();
-   
-      //   // Get value from form element
-      //   var text = event.target.text.value;
-   
-      //   // Insert a task into the collection
-      //   Tasks.insert({
-      //     text: text,
-      //     createdAt: new Date() // current time
-      //   });
-   
-      //   // Clear form
-      //   event.target.text.value = "";
-      // },
-      // "change .hide-completed input": function (event) {
-      // Session.set("hideCompleted", event.target.checked);
-      // }
-    });
+  Template.home.events({
+    "click .playerButton": function (event) {
+      console.log("Made it!");
+      // Prevent default browser form submit
+      event.preventDefault();
+
+      // Get value from form element
+      var text = event.target.id;
+      console.log(text);
+      Router.go(text);
+      // Insert a task into the collection
+    }
+  });
+  Template.play.events({
+    "click .weapon": function (event) {
+      console.log("You Chose!");
+      // Prevent default browser form submit
+      event.preventDefault();
+
+      // Get value from form element
+      var text = event.target.id;
+      console.log(text);
+      Router.go('home');
+      // Insert a task into the collection
+    }
+  });
 }
 
 
