@@ -19,6 +19,23 @@ h1 {
   color: #989898;
   text-align: center;
 }
+.results {
+  margin: 40px;
+  padding-bottom: 20px;
+  text-align: center;
+  padding-top: 20px;
+  font-size: x-large;
+  font-family: helvetica;
+  font-weight: 200;
+}
+
+.byLine {
+    margin-top: 224px;
+    text-align: center;
+    font-family: helvetica;
+    font-size: smaller;
+    font-weight: 100;
+}
 
 #header {
   background-color: #366DC1;

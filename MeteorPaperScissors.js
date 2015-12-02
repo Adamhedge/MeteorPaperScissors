@@ -1,14 +1,7 @@
+//Core game logic
+
 mpsDB = new Mongo.Collection("meteorPaperScissors");
-var game = mpsDB.findOne({
-  title: 'game'
-});
-if(!game){
-  mpsDB.insert({
-    title: 'game',
-    player1: 'unsubmitted',
-    player2: 'unsubmitted'
-  });
-}
+
 //Configuring routers, with a defined main template for a header.
 Router.configure({
     layoutTemplate: 'main'
@@ -31,26 +24,65 @@ Router.route('/player2', {
   data: 'player2'
 });
 
+//populate a game object in the DB if one hasn't been created.
+var game = mpsDB.findOne({
+  title: 'game'
+});
+console.log(game);
+if(!game){
+  mpsDB.insert({
+    title: 'game',
+    player1: 'unsubmitted',
+    player2: 'unsubmitted'
+  });
+}
+
+
+
 //Client Functionality.
 if (Meteor.isClient) {
-  // This code only runs on the client
-  // Template.body.helpers({
-  // });
+
+  //Defined a current player on the client to maintain which player you
+  //Choose to throw as.
   var currentPlayer = "";
+
+  //The helpers will display a winner if both players have played.
+  Template.home.helpers({
+    resultText : function (){
+      var game = mpsDB.findOne({
+        title: 'game'
+      });
+      console.log(game);
+      if(game.player1 === 'unsubmitted' && game.player2 === 'unsubmitted'){
+        return "The game has not begun!";
+      } else if (game.player1 === 'unsubmitted'){
+        return "Player 1 needs to play!";
+      } else if (game.player2 === 'unsubmitted'){
+        return "Player 2 needs to play!";
+      } else {
+        if(game.player1 === 'rock' && game.player2 === 'scissors' ||
+           game.player1 === 'paper' && game.player2 === 'rock' ||
+           game.player1 === 'scissors' && game.player2 === 'paper'){
+          return "Player 1 beat Player 2 with " + game.player1 + "!!";
+        } else {
+          return "Player 2 beat Player 1 with " + game.player2 + "!!";
+        }
+      }
+    }
+  });
+
+  //Define an event to store game data and re-route to the correct player URL.
   Template.home.events({
     "click .playerButton": function (event) {
-      console.log("Made it!");
       // Prevent default browser form submit
       event.preventDefault();
-      console.log(mpsDB.findOne({
-        title: 'game'
-      }));
-      // Get value from form element
+
+      // Get the value of the clicked button
       var text = event.target.id;
-      console.log(text);
+      // Assign a player to the client state
       currentPlayer = text;
+      // Re-route to the player template
       Router.go(text);
-      // Insert a task into the collection
     }
   });
 
@@ -59,21 +91,31 @@ if (Meteor.isClient) {
       console.log("You Chose!");
       // Prevent default browser form submit
       event.preventDefault();
-      // console.log(currentPlayer);
-      var text = event.target.id;
-      //console.log(event.target);
-      var game = mpsDB.findOne(mpsDB.findOne({
+      // Set the weapon of choice, to be stored in the mini-db
+      var weaponOfChoice = event.target.id;
+      // Retrieve the game state.
+      var game = mpsDB.findOne({
         title: 'game'
-      }));
+      });
+      // Create a game object to dynamically update the game state
+      // with the chosen player/ weapon of choice
       var gameObj = {};
-      gameObj[currentPlayer] = text;
+
+      //This conditional will reset the game results text if a game has previously been played,
+      //so it will show that one of the players needs to resubmit.
+      if (game.player1 !== 'unsubmitted' && game.player2 !== 'unsubmitted'){
+        gameObj.player1 = 'unsubmitted';
+        gameObj.player2 = 'unsubmitted';
+      }
+      //Set the current player's picked option.
+      gameObj[currentPlayer] = weaponOfChoice;
+      //Update the mini-db with the new game state.
       mpsDB.update({
         _id: game._id},
         {$set: gameObj
       });
-      //mpsDB.upsert()
+      //return to the home page.
       Router.go('home');
-      // Insert a task into the collection
     }
   });
 }

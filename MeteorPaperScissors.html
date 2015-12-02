@@ -7,12 +7,16 @@
       <p>Meteor | Paper | Scissors</p>
     </div>
     {{> yield}}  
+    <p class="byLine">By Adam Hedgpeth</p>
 </template>
 
 <template name="home">
   <div class="buttons" id="playerButtons">
     <button class="playerButton" id="player1">Player 1 Start</button>
     <button class="playerButton" id="player2">Player 2 Start</button>
+  </div>
+  <div class="results">
+    {{resultText}}
   </div>
 </template>
 
