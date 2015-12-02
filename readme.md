@@ -2,6 +2,8 @@
 
 Rock Paper Scissors, built in meteor, by Adam Hedgpeth
 
+Available at [adamsmpc.meteor.com][adamsmpc.meteor.com]
+
 ##Requirements
 
 Meteor, and Meteor's routing library iron router.
