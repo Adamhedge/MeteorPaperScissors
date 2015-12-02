@@ -24,18 +24,11 @@ Router.route('/player2', {
   data: 'player2'
 });
 
-//populate a game object in the DB if one hasn't been created.
-var game = mpsDB.findOne({
-  title: 'game'
-});
-console.log(game);
-if(!game){
-  mpsDB.insert({
-    title: 'game',
-    player1: 'unsubmitted',
-    player2: 'unsubmitted'
-  });
-}
+
+console.log(mpsDB.find().fetch());
+
+//console.log(game);
+
 
 
 
@@ -49,9 +42,7 @@ if (Meteor.isClient) {
   //The helpers will display a winner if both players have played.
   Template.home.helpers({
     resultText : function (){
-      var game = mpsDB.findOne({
-        title: 'game'
-      });
+      var game = mpsDB.find().fetch()[0];
       console.log(game);
       if(game.player1 === 'unsubmitted' && game.player2 === 'unsubmitted'){
         return "The game has not begun!";
@@ -94,9 +85,7 @@ if (Meteor.isClient) {
       // Set the weapon of choice, to be stored in the mini-db
       var weaponOfChoice = event.target.id;
       // Retrieve the game state.
-      var game = mpsDB.findOne({
-        title: 'game'
-      });
+      var game = mpsDB.find().fetch()[0];
       // Create a game object to dynamically update the game state
       // with the chosen player/ weapon of choice
       var gameObj = {};
@@ -123,6 +112,16 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
+    console.log(mpsDB.find().fetch());
+    var entries = mpsDB.find().fetch();
+    console.log(entries);
+    if(entries.length === 0){
+      mpsDB.insert({
+        title: 'game',
+        player1: 'unsubmitted',
+        player2: 'unsubmitted'
+      });
+    }
     // code to run on server at startup
   });
 }
